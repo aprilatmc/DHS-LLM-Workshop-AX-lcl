@@ -187,6 +187,7 @@ def main(args):
         trainer.model.print_trainable_parameters()
 
     if is_deepspeed_peft_enabled:
+        print(f'is_deepspeed_peft_enabled: {is_deepspeed_peft_enabled}')
         trainer.add_callback(SaveDeepSpeedPeftModelCallback(trainer, save_steps=args.save_steps))
 
     if args.use_peft_lora:

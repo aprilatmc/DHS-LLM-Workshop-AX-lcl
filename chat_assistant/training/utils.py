@@ -169,7 +169,8 @@ def create_and_prepare_model(args):
         replace_starcoder_attn_with_flash_attn()
         replace_llama_attn_with_flash_attn()
         replace_falcon_attn_with_flash_attn()
-    device_map = None
+    # device_map = None
+    device_map = 'auto'  #AX: added 
     bnb_config = None
     load_in_8bit = args.use_8bit_qunatization
 
@@ -195,8 +196,9 @@ def create_and_prepare_model(args):
 
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name,
-        load_in_8bit=load_in_8bit,
-        quantization_config=bnb_config,
+        # load_in_8bit=load_in_8bit, #AX: commented out
+        # quantization_config=bnb_config, #AX: commented out
+        torch_dtype=torch.bfloat16, #AX: added
         device_map=device_map,
         use_cache=not args.use_gradient_checkpointing,
         trust_remote_code=True,
